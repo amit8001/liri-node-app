@@ -1,12 +1,9 @@
-//added code to read and set any environment variables with the dotenv package:
 
 
+//require the below modules
 var keys = require("./keys.js");
-
 var Twitter = require('twitter');
-
 var request = require("request");
-
 var Spotify = require('node-spotify-api');
 
 // fs is a core Node package for reading and writing files
@@ -62,7 +59,7 @@ else if (nodeArgs[2]=="movie-this" && (!nodeArgs[3])){
 
 
 
-
+//handling the arguments passed
 switch (operation) {
     case "my-tweets": get_twitter_data(); break;
     case "spotify-this-song" : get_spotify_data(song) ; break;
@@ -70,6 +67,7 @@ switch (operation) {
     case "do-what-it-says"   : readfile()      ; break;
 }
 
+//twitter data retrieval function
 function get_twitter_data() {
  
     logthis("\r\n"+"****"+operation+"\r\n");
@@ -90,6 +88,7 @@ function get_twitter_data() {
     });
 }
 
+//spotify data retrieval function
 function get_spotify_data(audiof){
     var spotify = new Spotify(keys.spotify); 
 
@@ -145,7 +144,7 @@ function get_spotify_data(audiof){
 
 }
 
-
+//get movie info from omdb
 function get_movie_info(title){
 
 // Then run a request to the OMDB API with the movie specified
@@ -184,7 +183,7 @@ function get_movie_info(title){
 } 
 
 
-
+//this function is called to read the random.txt and retrieve data based on the "command" present there
 function readfile(){
     logthis("****"+operation+"\r\n");
 
@@ -206,21 +205,34 @@ function readfile(){
 
     // We will then re-display the content as an array for later use.
     console.log(dataArr);
-
-    if (dataArr[0]=="spotify-this-song"){
+    operation=dataArr[0];
+    if (dataArr[0]=="spotify-this-song" && (dataArr[1])){
         get_spotify_data(dataArr[1]);
+    }
+    else if (dataArr[0]=="spotify-this-song" && (!dataArr[1])) {
+        get_spotify_data("The Sign");
+    }
+    else if (dataArr[0]=="movie-this" && (dataArr[1])) {
+        get_movie_info(dataArr[1]);
+    }
+    else if (dataArr[0]=="movie-this" && (!dataArr[1])) {
+        get_movie_info("Mr. Nobody");
+    }
+    else if (dataArr[0]=="my-tweets"){
+        get_twitter_data();
     }
 
     });
 }
 
+//logger function called at the same time as console.log so that will push the output to log file as well.
 function logthis(a){
     var fs = require("fs");
 
     // We then store the textfile filename given to us from the command line
     var textFile = 'log.txt';
 
-    // We then append the contents "Hello Kitty" into the file
+    // We then append the contents into the file
     // If the file didn't exist then it gets created on the fly.
     fs.appendFileSync(textFile, '\n'+a, function(err) {
 
