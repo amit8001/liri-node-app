@@ -5,4 +5,6 @@ In this Liri bot you can pass command line arguments like spotify-this-song, mov
 For movie-this option, you can pass movie name without quotes as well. If no movie is passed, it defaults to the movie, Mr Nobody.</br>
 For getting your tweets data, simply issue the command: node liri my-tweets.</br>
 
-Please note that you need to use your own Spotify keys, Twitter keys & Twitter Screen name in an .env file. Also run npm install to install the required modules as listed as dependencies in the package.json file.
+Please note that you need to use your own Spotify keys, Twitter keys & Twitter Screen name in an .env file. Also run npm install to install the required modules as listed as dependencies in the package.json file.</br>
+
+Finally your main code(entry point) is liri.js.
